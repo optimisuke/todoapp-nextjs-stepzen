@@ -1,9 +1,9 @@
 type Todos {
-  completed: Boolean
-  created_at: DateTime
+  completed: Boolean!
+  created_at: DateTime!
   id: ID!
   title: String!
-  updated_at: DateTime
+  updated_at: DateTime!
 }
 
 """
@@ -51,36 +51,27 @@ type Mutation {
       dml: DELETE
       configuration: "postgresql_config"
     )
-  insertTodos(
-    id: ID!
-    completed: Boolean
-    created_at: DateTime
-    title: String!
-    updated_at: DateTime
-  ): Todos
+  insertTodos(title: String!, completed: Boolean): Todos
     @dbquery(
       type: "postgresql"
       schema: "public"
-      table: "todos"
-      dml: INSERT
+      query: """
+      INSERT INTO todos (title, completed) VALUES (
+        $1,
+        COALESCE($2, false)
+      )
+      RETURNING *
+      """
       configuration: "postgresql_config"
     )
-  updateTodos(
-    id: ID!
-    completed: Boolean
-    created_at: DateTime
-    title: String
-    updated_at: DateTime
-  ): Todos
+  updateTodos(id: ID!, title: String, completed: Boolean): Todos
     @dbquery(
       type: "postgresql"
       schema: "public"
       query: """
       UPDATE "todos" SET
-        "completed" = COALESCE($2, "completed"),
-        "created_at" = COALESCE($3, "created_at"),
-        "title" = COALESCE($4, "title"),
-        "updated_at" = COALESCE($5, "updated_at")
+        "title" = COALESCE($2, "title"),
+        "completed" = COALESCE($3, "completed")
       WHERE
         "id" = $1
       RETURNING *
