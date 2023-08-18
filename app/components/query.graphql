@@ -7,3 +7,33 @@ query getTodos {
     updated_at
   }
 }
+
+mutation updateTodo($id: ID!, $completed: Boolean, $title: String) {
+  updateTodos(id: $id, completed: $completed, title: $title) {
+    completed
+    created_at
+    id
+    title
+    updated_at
+  }
+}
+
+mutation insertTodo($title: String!, $completed: Boolean) {
+  insertTodos(title: $title, completed: $completed) {
+    completed
+    created_at
+    id
+    title
+    updated_at
+  }
+}
+
+mutation deleteTodo($id: ID!) {
+  deleteTodos(id: $id) {
+    completed
+    created_at
+    id
+    title
+    updated_at
+  }
+}

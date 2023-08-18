@@ -2,8 +2,14 @@ import { List } from "@mui/material";
 import React, { useState } from "react";
 import TodoItem from "./TodoItem";
 import TodoInput from "./TodoInput";
-import { useQuery } from "@apollo/client";
-import { GetTodosDocument } from "@/src/gql/graphql";
+import { useMutation, useQuery } from "@apollo/client";
+import {
+  DeleteTodoDocument,
+  GetTodosDocument,
+  InsertTodoDocument,
+  UpdateTodoDocument,
+} from "@/src/gql/graphql";
+import { UUID } from "crypto";
 
 type Task = {
   task: string;
@@ -14,20 +20,22 @@ const TodoList: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
 
   const { data, loading, error } = useQuery(GetTodosDocument);
+  const [insertTodo, { data: insertedData, error: insertError }] =
+    useMutation(InsertTodoDocument);
   const addTask = (task: string) => {
-    setTasks([...tasks, { task, completed: false }]);
+    insertTodo({ variables: { title: task } });
   };
 
-  const toggleTask = (index: number) => {
-    const newTasks = [...tasks];
-    newTasks[index].completed = !newTasks[index].completed;
-    setTasks(newTasks);
+  const [updateTodo, { data: updatedData, error: updateError }] =
+    useMutation(UpdateTodoDocument);
+  const toggleTask = (index: string, completed: boolean) => {
+    updateTodo({ variables: { id: index, completed: !completed } });
   };
 
-  const deleteTask = (index: number) => {
-    const newTasks = [...tasks];
-    newTasks.splice(index, 1);
-    setTasks(newTasks);
+  const [deleteTodo, { data: indeletedData, error: deletedError }] =
+    useMutation(DeleteTodoDocument);
+  const deleteTask = (index: string) => {
+    deleteTodo({ variables: { id: index } });
   };
 
   return (
@@ -41,8 +49,8 @@ const TodoList: React.FC = () => {
             key={index}
             task={task?.title!}
             completed={task?.completed!}
-            toggleTask={() => toggleTask(index)}
-            deleteTask={() => deleteTask(index)}
+            toggleTask={() => toggleTask(task?.id!, task?.completed!)}
+            deleteTask={() => deleteTask(task?.id!)}
           />
         ))}
       </List>

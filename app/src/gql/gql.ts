@@ -13,7 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "query getTodos {\n  todosList {\n    id\n    title\n    completed\n    created_at\n    updated_at\n  }\n}": types.GetTodosDocument,
+    "query getTodos {\n  todosList {\n    id\n    title\n    completed\n    created_at\n    updated_at\n  }\n}\n\nmutation updateTodo($id: ID!, $completed: Boolean, $title: String) {\n  updateTodos(id: $id, completed: $completed, title: $title) {\n    completed\n    created_at\n    id\n    title\n    updated_at\n  }\n}\n\nmutation insertTodo($title: String!, $completed: Boolean) {\n  insertTodos(title: $title, completed: $completed) {\n    completed\n    created_at\n    id\n    title\n    updated_at\n  }\n}\n\nmutation deleteTodo($id: ID!) {\n  deleteTodos(id: $id) {\n    completed\n    created_at\n    id\n    title\n    updated_at\n  }\n}": types.GetTodosDocument,
 };
 
 /**
@@ -33,7 +33,7 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query getTodos {\n  todosList {\n    id\n    title\n    completed\n    created_at\n    updated_at\n  }\n}"): (typeof documents)["query getTodos {\n  todosList {\n    id\n    title\n    completed\n    created_at\n    updated_at\n  }\n}"];
+export function graphql(source: "query getTodos {\n  todosList {\n    id\n    title\n    completed\n    created_at\n    updated_at\n  }\n}\n\nmutation updateTodo($id: ID!, $completed: Boolean, $title: String) {\n  updateTodos(id: $id, completed: $completed, title: $title) {\n    completed\n    created_at\n    id\n    title\n    updated_at\n  }\n}\n\nmutation insertTodo($title: String!, $completed: Boolean) {\n  insertTodos(title: $title, completed: $completed) {\n    completed\n    created_at\n    id\n    title\n    updated_at\n  }\n}\n\nmutation deleteTodo($id: ID!) {\n  deleteTodos(id: $id) {\n    completed\n    created_at\n    id\n    title\n    updated_at\n  }\n}"): (typeof documents)["query getTodos {\n  todosList {\n    id\n    title\n    completed\n    created_at\n    updated_at\n  }\n}\n\nmutation updateTodo($id: ID!, $completed: Boolean, $title: String) {\n  updateTodos(id: $id, completed: $completed, title: $title) {\n    completed\n    created_at\n    id\n    title\n    updated_at\n  }\n}\n\nmutation insertTodo($title: String!, $completed: Boolean) {\n  insertTodos(title: $title, completed: $completed) {\n    completed\n    created_at\n    id\n    title\n    updated_at\n  }\n}\n\nmutation deleteTodo($id: ID!) {\n  deleteTodos(id: $id) {\n    completed\n    created_at\n    id\n    title\n    updated_at\n  }\n}"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
