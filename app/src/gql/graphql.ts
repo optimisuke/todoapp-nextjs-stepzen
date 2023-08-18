@@ -1,4 +1,5 @@
 /* eslint-disable */
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -66,10 +67,7 @@ export type MutationDeleteTodosArgs = {
  */
 export type MutationInsertTodosArgs = {
   completed?: InputMaybe<Scalars['Boolean']['input']>;
-  created_at?: InputMaybe<Scalars['DateTime']['input']>;
-  id: Scalars['ID']['input'];
   title: Scalars['String']['input'];
-  updated_at?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
 
@@ -86,10 +84,8 @@ export type MutationInsertTodosArgs = {
  */
 export type MutationUpdateTodosArgs = {
   completed?: InputMaybe<Scalars['Boolean']['input']>;
-  created_at?: InputMaybe<Scalars['DateTime']['input']>;
   id: Scalars['ID']['input'];
   title?: InputMaybe<Scalars['String']['input']>;
-  updated_at?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
 /**
@@ -137,9 +133,17 @@ export type QueryTodosPaginatedListArgs = {
 
 export type Todos = {
   __typename?: 'Todos';
-  completed?: Maybe<Scalars['Boolean']['output']>;
-  created_at?: Maybe<Scalars['DateTime']['output']>;
+  completed: Scalars['Boolean']['output'];
+  created_at: Scalars['DateTime']['output'];
   id: Scalars['ID']['output'];
   title: Scalars['String']['output'];
-  updated_at?: Maybe<Scalars['DateTime']['output']>;
+  updated_at: Scalars['DateTime']['output'];
 };
+
+export type GetTodosQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetTodosQuery = { __typename?: 'Query', todosList?: Array<{ __typename?: 'Todos', id: string, title: string, completed: boolean, created_at: any, updated_at: any } | null> | null };
+
+
+export const GetTodosDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getTodos"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"todosList"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"completed"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}}]}}]} as unknown as DocumentNode<GetTodosQuery, GetTodosQueryVariables>;

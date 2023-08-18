@@ -2,7 +2,7 @@ import { CodegenConfig } from "@graphql-codegen/cli";
 
 import * as dotenv from "dotenv";
 dotenv.config();
-const apiKey = process.env.API_KEY || "invalid-api-key";
+const apiKey = process.env.NEXT_PUBLIC_API_KEY || "invalid-api-key";
 
 const config: CodegenConfig = {
   schema: [

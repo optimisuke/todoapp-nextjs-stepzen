@@ -2,6 +2,8 @@ import { List } from "@mui/material";
 import React, { useState } from "react";
 import TodoItem from "./TodoItem";
 import TodoInput from "./TodoInput";
+import { useQuery } from "@apollo/client";
+import { GetTodosDocument } from "@/src/gql/graphql";
 
 type Task = {
   task: string;
@@ -11,6 +13,7 @@ type Task = {
 const TodoList: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
 
+  const { data, loading, error } = useQuery(GetTodosDocument);
   const addTask = (task: string) => {
     setTasks([...tasks, { task, completed: false }]);
   };
@@ -30,12 +33,14 @@ const TodoList: React.FC = () => {
   return (
     <div>
       <TodoInput addTask={addTask} />
+      {loading && <p>Loading...</p>}
+      {error && <p>Error: {error.message}</p>}
       <List>
-        {tasks.map((task, index) => (
+        {data?.todosList?.map((task, index) => (
           <TodoItem
             key={index}
-            task={task.task}
-            completed={task.completed}
+            task={task?.title!}
+            completed={task?.completed!}
             toggleTask={() => toggleTask(index)}
             deleteTask={() => deleteTask(index)}
           />
