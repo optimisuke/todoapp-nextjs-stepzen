@@ -5,8 +5,8 @@ import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 
 const apiKey = process.env.NEXT_PUBLIC_API_KEY || "invalid-api-key";
-// const uri = process.env.NEXT_PUBLIC_API_URI || "invalid-api-uri";
-const uri = "https://miracatu.stepzen.net/api/todos/__graphql";
+const uri = process.env.NEXT_PUBLIC_API_URI || "invalid-api-uri";
+
 const httpLink = new HttpLink({
   uri: uri,
 });
